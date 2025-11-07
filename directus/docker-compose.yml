@@ -1,0 +1,121 @@
+name: directus-cms-template
+services:
+  database:
+    image: postgis/postgis:16-master
+    platform: linux/amd64
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USER:-directus}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-directus}
+      POSTGRES_DB: ${DB_DATABASE:-directus}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready --host=localhost --username=${DB_USER:-directus} --dbname=${DB_DATABASE:-directus}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+
+  cache:
+    image: redis:6
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(redis-cli ping) = 'PONG' ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_interval: 5s
+      start_period: 30s
+
+  directus:
+    build:
+      context: ..
+      dockerfile: directus/Dockerfile
+    ports:
+      - ${DIRECTUS_PORT:-8055}:8055
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions
+    depends_on:
+      database:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    environment:
+      SECRET: ${SECRET:-replace-with-random-secret}
+      PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8055}
+
+      # Database Configuration
+      DB_CLIENT: ${DB_CLIENT:-pg}
+      DB_HOST: "database"
+      DB_PORT: "5432"
+      DB_DATABASE: ${DB_DATABASE:-directus}
+      DB_USER: ${DB_USER:-directus}
+      DB_PASSWORD: ${DB_PASSWORD:-directus}
+
+      # Cache Configuration
+      CACHE_ENABLED: ${CACHE_ENABLED:-true}
+      CACHE_AUTO_PURGE: ${CACHE_AUTO_PURGE:-true}
+      CACHE_STORE: "redis"
+      REDIS: "redis://cache:6379"
+
+      # Admin Configuration
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-change-this-password}
+
+      # WebSocket Configuration
+      WEBSOCKETS_ENABLED: ${WEBSOCKETS_ENABLED:-true}
+
+      # CORS Configuration
+      CORS_ENABLED: ${CORS_ENABLED:-true}
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+
+      # Cookie Configuration
+      REFRESH_TOKEN_COOKIE_SECURE: ${REFRESH_TOKEN_COOKIE_SECURE:-false}
+      REFRESH_TOKEN_COOKIE_SAME_SITE: ${REFRESH_TOKEN_COOKIE_SAME_SITE:-lax}
+      REFRESH_TOKEN_COOKIE_DOMAIN: ${REFRESH_TOKEN_COOKIE_DOMAIN:-localhost}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      SESSION_COOKIE_SAME_SITE: ${SESSION_COOKIE_SAME_SITE:-lax}
+      SESSION_COOKIE_DOMAIN: ${SESSION_COOKIE_DOMAIN:-localhost}
+
+      # Extensions Configuration
+      EXTENSIONS_PATH: ${EXTENSIONS_PATH:-./extensions}
+      EXTENSIONS_AUTO_RELOAD: ${EXTENSIONS_AUTO_RELOAD:-true}
+
+      # Content Security Policy
+      CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC: ${CONTENT_SECURITY_POLICY_DIRECTIVES__FRAME_SRC:-http://localhost:3000,http://localhost:4321,http://localhost:5173,https://*.youtube.com,https://*.vimeo.com,https://*.wistia.net,https://*.loom.com}
+
+      # Storage Configuration (S3 optional)
+      STORAGE_LOCATIONS: ${STORAGE_LOCATIONS:-local}
+      STORAGE_LOCAL_ROOT: ${STORAGE_LOCAL_ROOT:-./uploads}
+      STORAGE_S3_DRIVER: ${STORAGE_S3_DRIVER:-}
+      STORAGE_S3_KEY: ${STORAGE_S3_KEY:-}
+      STORAGE_S3_SECRET: ${STORAGE_S3_SECRET:-}
+      STORAGE_S3_BUCKET: ${STORAGE_S3_BUCKET:-}
+      STORAGE_S3_REGION: ${STORAGE_S3_REGION:-us-east-1}
+      STORAGE_S3_ENDPOINT: ${STORAGE_S3_ENDPOINT:-}
+
+      # Email Configuration (only set if EMAIL_TRANSPORT is provided)
+      # Empty values cause health check failures, so only set if configured
+
+      # Template Configuration (defaults to "cms", set to empty/blank for blank instance)
+      DIRECTUS_TEMPLATE: ${DIRECTUS_TEMPLATE:-cms}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:8055/server/health', (r) => { process.exit(r.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:

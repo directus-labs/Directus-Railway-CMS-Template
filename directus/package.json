@@ -1,0 +1,22 @@
+{
+  "name": "directus-railway-cms",
+  "version": "1.0.0",
+  "description": "Production-ready Directus CMS template for Railway",
+  "private": true,
+  "scripts": {
+    "directus": "directus"
+  },
+  "keywords": [
+    "directus",
+    "cms",
+    "railway",
+    "template"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
+
+
+
+

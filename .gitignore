@@ -1,0 +1,46 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+directus/.env
+*.env
+# Allow .env.example to be committed (Railway uses it for variable detection)
+!.env.example
+
+# Node modules
+node_modules/
+directus/node_modules/
+
+# Docker volumes
+directus/data/
+directus/uploads/
+*.log
+directus/.registry/
+directus/extensions/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+.nyc_output/
+
+# Build artifacts
+dist/
+build/
+
+# Railway
+.railway/
+
+# Temporary files
+*.tmp
+*.temp
+
