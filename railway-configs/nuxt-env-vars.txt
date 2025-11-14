@@ -1,0 +1,11 @@
+# Nuxt Environment Variables for Railway
+# Copy these into your Railway service environment variables
+
+# Required
+DIRECTUS_URL=https://${{Directus.RAILWAY_PUBLIC_DOMAIN}}
+DIRECTUS_SERVER_TOKEN=your-webmaster-token-here
+NUXT_PUBLIC_SITE_URL=https://${{starters.RAILWAY_PUBLIC_DOMAIN}}
+
+# Optional
+# DIRECTUS_FORM_TOKEN=your-frontend-bot-token-here
+# NUXT_PUBLIC_ENABLE_VISUAL_EDITING=true

@@ -1,0 +1,11 @@
+# SvelteKit Environment Variables for Railway
+# Copy these into your Railway service environment variables
+
+# Required
+PUBLIC_DIRECTUS_URL=https://${{Directus.RAILWAY_PUBLIC_DOMAIN}}
+PUBLIC_DIRECTUS_TOKEN=your-webmaster-token-here
+PUBLIC_SITE_URL=https://${{starters.RAILWAY_PUBLIC_DOMAIN}}
+
+# Optional
+# PUBLIC_DIRECTUS_FORM_TOKEN=your-frontend-bot-token-here
+# DRAFT_MODE_SECRET=your-draft-mode-secret-here
