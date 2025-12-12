@@ -33,7 +33,7 @@ services:
       context: ..
       dockerfile: directus/Dockerfile
       args:
-        # Override Directus version by setting DIRECTUS_VERSION environment variable)
+        # Override Directus version by setting DIRECTUS_VERSION environment variable
         DIRECTUS_VERSION: ${DIRECTUS_VERSION:-latest}
     ports:
       - ${DIRECTUS_PORT:-8055}:8055

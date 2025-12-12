@@ -15,25 +15,15 @@ build powerful REST and GraphQL APIs, and manage content for anything from simpl
 
 ## What's Included
 
-- **Directus** (latest) - Auto-updates to latest version with REST + GraphQL API
-- **PostgreSQL Database** - Automatically provisioned and linked via Railway's private network (zero egress fees)
-- **Redis Cache** - Enabled by default for caching and WebSocket support
-- **Railway S3 Storage Bucket** - Scalable, persistent file storage for multi-replica deployments
-- **WebSockets** - Real-time features enabled by default
-- **CMS Template** - Pre-configured content collections (pages, posts, forms, navigation, etc.) applied automatically
-- **Extensions Marketplace** - Access to extensions and plugins for enhanced functionality
-- **Health Checks** - Built-in monitoring and automatic restarts for Railway
-- **Admin User** - Automatically created on first deployment with secure credentials
-- **Frontend Integration** - Easy connection to Next.js, Nuxt, Astro, and SvelteKit starters
-- **Production Ready** - Configured with best practices, security, and scalability in mind
-
-## Use Cases
-
-- **Content Management**: Enable teams to create, manage, and publish content without technical knowledge
-- **API Development**: Build REST and GraphQL APIs from your database schema in minutes
-- **Headless CMS**: Power websites, mobile apps, and other frontend applications with a flexible content API
-- **Admin Panels**: Build custom admin interfaces for your applications
-- **Data Management**: Visualize and manage data from any SQL database through an intuitive interface
+- **Directus CMS** - Headless CMS with REST + GraphQL API
+- **PostgreSQL Database** - Automatically provisioned and linked via Railway's private network
+- **Redis Cache** - Enabled for caching and WebSocket support
+- **Railway S3 Storage** - Persistent file storage for multi-replica deployments
+- **CMS Template** - Pre-configured content collections (pages, posts, forms, navigation) applied on first deploy
+- **Auto-setup Scripts** - Admin user and CMS template automatically configured
+- **Health Checks** - Built-in monitoring for Railway
+- **Frontend Starters** - Ready to connect to Next.js, Nuxt, Astro, and SvelteKit
+- - **Production Ready** - Configured with best practices, security, and scalability in mind
 
 ## Quick Start
 
