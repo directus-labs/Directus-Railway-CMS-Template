@@ -1,12 +1,10 @@
-# Next.js Environment Variables for Railway
-# Copy these into your Railway service environment variables
+# Next.js (CMS)
+# Railway: use the variables below (${{...}} fills from your project).
+# Local dev example:
+#   NEXT_PUBLIC_DIRECTUS_URL=https://your-project.directus.app
+#   NEXT_PUBLIC_SITE_URL=http://localhost:3000
 
-# Required
 NEXT_PUBLIC_DIRECTUS_URL=https://${{Directus.RAILWAY_PUBLIC_DOMAIN}}
-DIRECTUS_PUBLIC_TOKEN=your-webmaster-token-here
 NEXT_PUBLIC_SITE_URL=https://${{starters.RAILWAY_PUBLIC_DOMAIN}}
-
-# Optional
-# DIRECTUS_FORM_TOKEN=your-frontend-bot-token-here
-# DRAFT_MODE_SECRET=your-draft-mode-secret-here
-# NEXT_PUBLIC_ENABLE_VISUAL_EDITING=true
+DIRECTUS_SERVER_TOKEN=your-webmaster-token
+NEXT_PUBLIC_ENABLE_VISUAL_EDITING=true

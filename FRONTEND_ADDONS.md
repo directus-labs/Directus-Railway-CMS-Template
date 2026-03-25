@@ -18,7 +18,7 @@ Deploy Next.js, Nuxt, Astro, or SvelteKit frontends with your Directus CMS backe
 2. **Add Environment Variables**:
 
    - Copy variables from `railway-configs/` folder (see files below)
-   - Replace `your-webmaster-token-here` with token from Directus
+   - Replace `your-webmaster-token` with the Webmaster user's token (`DIRECTUS_SERVER_TOKEN`)
    - Service references use `Directus` (if your service has a different name, replace it in the env vars)
    - Frontend service name defaults to `starters` - if you renamed it, replace `starters` with your service name
 
@@ -34,6 +34,15 @@ Deploy Next.js, Nuxt, Astro, or SvelteKit frontends with your Directus CMS backe
 
 Copy variables from these files in `railway-configs/`:
 
+| Framework | Variables                                                                                                        |
+| --------- | ---------------------------------------------------------------------------------------------------------------- |
+| Next.js   | `NEXT_PUBLIC_DIRECTUS_URL`, `NEXT_PUBLIC_SITE_URL`, `DIRECTUS_SERVER_TOKEN`, `NEXT_PUBLIC_ENABLE_VISUAL_EDITING` |
+| Nuxt      | `DIRECTUS_URL`, `NUXT_PUBLIC_SITE_URL`, `DIRECTUS_SERVER_TOKEN`, `NUXT_PUBLIC_ENABLE_VISUAL_EDITING`             |
+| Astro     | `PUBLIC_DIRECTUS_URL`, `PUBLIC_SITE_URL`, `DIRECTUS_SERVER_TOKEN`, `PUBLIC_ENABLE_VISUAL_EDITING`                |
+| SvelteKit | `PUBLIC_DIRECTUS_URL`, `PUBLIC_SITE_URL`, `DIRECTUS_SERVER_TOKEN`, `PUBLIC_ENABLE_VISUAL_EDITING`                |
+
+Files to copy from:
+
 - `nextjs-env-vars.txt` - Next.js
 - `nuxt-env-vars.txt` - Nuxt
 - `astro-env-vars.txt` - Astro
@@ -41,19 +50,10 @@ Copy variables from these files in `railway-configs/`:
 
 ## Token Setup
 
-**Webmaster Token (Required):**
+**Webmaster token (`DIRECTUS_SERVER_TOKEN`):**
 
 - Directus admin → Users → Webmaster account → Token
-- Replace `your-webmaster-token-here` in env vars
-
-**Frontend Bot Token (Optional, for forms):**
-
-- Directus admin → Users → Frontend Bot User → Token
-- Generate token from that account
-
-**Draft Mode Secret (Optional, for live preview):**
-
-- Generate a random secret string
+- Replace `your-webmaster-token` in the env file you copied
 
 ## Troubleshooting
 
@@ -69,7 +69,7 @@ Copy variables from these files in `railway-configs/`:
 **Build failures:**
 
 - Verify Directus service name matches in env vars (`Directus` by default)
-- Check that `your-webmaster-token-here` is replaced with actual token
+- Check that `your-webmaster-token` is replaced with the actual token
 - Ensure Directus service is deployed and accessible
 
 **Connection errors:**
