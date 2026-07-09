@@ -1,8 +1,15 @@
-ARG DIRECTUS_VERSION=11.17.4
+FROM node:22-alpine AS template-cli
+RUN npm install -g directus-template-cli@latest
+
+ARG DIRECTUS_VERSION=12.1.1
 FROM directus/directus:${DIRECTUS_VERSION}
 
 # Switch to root to set up scripts and permissions
 USER root
+
+# Install template CLI (v12 image no longer includes npm/npx at runtime)
+COPY --from=template-cli /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=template-cli /usr/local/bin/directus-template-cli /usr/local/bin/directus-template-cli
 
 # Ensure extensions and uploads directories exist
 RUN mkdir -p /directus/extensions /directus/uploads

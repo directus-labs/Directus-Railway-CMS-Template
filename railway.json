@@ -5,7 +5,7 @@
     "dockerfilePath": "directus/Dockerfile"
   },
   "deploy": {
-    "healthcheckPath": "/server/health",
+    "healthcheckPath": "/server/ping",
     "healthcheckTimeout": 300,
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3

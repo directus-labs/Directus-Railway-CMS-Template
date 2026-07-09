@@ -34,7 +34,7 @@ services:
       dockerfile: directus/Dockerfile
       args:
         # Override Directus version by setting DIRECTUS_VERSION environment variable
-        DIRECTUS_VERSION: ${DIRECTUS_VERSION:-11.17.4}
+        DIRECTUS_VERSION: ${DIRECTUS_VERSION:-12.1.1}
     ports:
       - ${DIRECTUS_PORT:-8055}:8055
     volumes:
@@ -50,6 +50,9 @@ services:
       PUBLIC_URL: ${PUBLIC_URL:-http://localhost:8055}
       PORT: ${PORT:-8055}
       LOG_STYLE: ${LOG_STYLE:-raw}
+      NODE_ENV: ${NODE_ENV:-production}
+      IP_TRUST_PROXY: ${IP_TRUST_PROXY:-true}
+      LICENSE_KEY: ${LICENSE_KEY:-}
 
       # Database Configuration
       DB_CLIENT: ${DB_CLIENT:-pg}
@@ -113,8 +116,7 @@ services:
           'CMD',
           'node',
           '-e',
-          "require('http').get('http://localhost:8055/server/health', (r) => { process.exit(r.statusCode === 200 ? 0 :
-          1) }).on('error', () => process.exit(1))",
+          "require('http').get('http://localhost:8055/server/ping', (r) => { process.exit(r.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))",
         ]
       interval: 30s
       timeout: 10s
