@@ -17,12 +17,11 @@ if [ -n "$DIRECTUS_TEMPLATE" ] && [ "$DIRECTUS_TEMPLATE" = "cms" ] && \
    [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ]; then
   (
     sleep 5  # Give Directus a moment to start
-    DIRECTUS_PORT="${PORT:-8055}"
     max_attempts=60
     attempt=0
 
     while [ $attempt -lt $max_attempts ]; do
-      node -e "const http=require('http'); const port=process.env.PORT||8055; http.get(\`http://localhost:\${port}/server/health\`, (r)=>{let d=''; r.on('data',c=>d+=c); r.on('end',()=>process.exit(r.statusCode===200&&d.includes('status')?0:1));}).on('error',(e)=>{process.exit(1);});" > /dev/null 2>&1
+      node -e "const http=require('http'); const port=process.env.PORT||8055; http.get(\`http://localhost:\${port}/server/ping\`, (r)=>{let d=''; r.on('data',c=>d+=c); r.on('end',()=>process.exit(r.statusCode===200?0:1));}).on('error',()=>process.exit(1));" > /dev/null 2>&1
       if [ $? -eq 0 ]; then
         echo "Directus is ready! Loading CMS template..."
         /directus/scripts/bootstrap-admin.sh 2>&1 || {
@@ -40,4 +39,3 @@ fi
 # Start Directus (main process - keeps container running)
 echo "Starting Directus..."
 exec node /directus/cli.js start
-
