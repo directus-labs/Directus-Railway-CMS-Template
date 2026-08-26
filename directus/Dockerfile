@@ -1,5 +1,5 @@
 # Global build arg — must be declared before any FROM to use in image tags
-ARG DIRECTUS_VERSION=12.3.0
+ARG DIRECTUS_VERSION=12.3.1
 
 FROM node:22-alpine AS template-cli
 WORKDIR /directus/template-cli

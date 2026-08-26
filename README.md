@@ -29,7 +29,7 @@ Frontends (Next.js, Nuxt, Astro, SvelteKit) are deployed separately from the sta
 
 ## What's Included
 
-- **Directus 12.3.0** - Headless CMS with REST + GraphQL API
+- **Directus 12.3.1** - Headless CMS with REST + GraphQL API
 - **PostgreSQL Database** - Automatically provisioned and linked via Railway's private network
 - **Redis Cache** - Enabled for caching and WebSocket support
 - **Railway S3 Storage** - Persistent file storage for multi-replica deployments
