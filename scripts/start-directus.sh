@@ -2,6 +2,20 @@
 # Startup script for Directus
 # Runs bootstrap and optionally applies CMS template
 
+# Detect a fresh install BEFORE bootstrap creates the system tables.
+# The CMS template is only ever applied to a brand-new database, so redeploys and
+# Directus version upgrades never touch a user's (possibly customized) schema.
+# Only a "table does not exist" error counts as fresh; any other failure
+# (e.g. database not reachable yet) is treated as an existing install, to be safe.
+fresh_install=false
+db_check=$(node /directus/cli.js count directus_users 2>&1)
+if [ $? -ne 0 ] && echo "$db_check" | grep -qiE "does not exist|doesn't exist|no such table"; then
+  fresh_install=true
+  echo "Empty database detected - this is a fresh install."
+else
+  echo "Existing Directus database detected - CMS template will not be applied."
+fi
+
 # Run Directus bootstrap (idempotent - safe to run on every startup)
 # This will:
 # - Create tables if database is empty
@@ -12,8 +26,10 @@ node /directus/cli.js bootstrap || {
   echo "Bootstrap completed (or already initialized)"
 }
 
-# Start CMS template loading in background (only if DIRECTUS_TEMPLATE=cms and admin creds are set)
-if [ -n "$DIRECTUS_TEMPLATE" ] && [ "$DIRECTUS_TEMPLATE" = "cms" ] && \
+# Start CMS template loading in background
+# (only on a fresh install, and only if DIRECTUS_TEMPLATE=cms and admin creds are set)
+if [ "$fresh_install" = "true" ] && \
+   [ -n "$DIRECTUS_TEMPLATE" ] && [ "$DIRECTUS_TEMPLATE" = "cms" ] && \
    [ -n "$ADMIN_EMAIL" ] && [ -n "$ADMIN_PASSWORD" ]; then
   (
     sleep 5  # Give Directus a moment to start

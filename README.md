@@ -108,7 +108,8 @@ The bootstrap scripts on first deploy:
 
 - Create an admin user with your configured credentials
 - Apply the CMS template from starters (collections, flows, roles, sample content)
-- Skip template apply if the `pages` collection already exists (safe on redeploy)
+- Only apply the template to a brand-new, empty database. Redeploys and Directus version upgrades never re-apply it, so
+  any changes you make to collections, fields or content are left alone
 
 ## Development
 
